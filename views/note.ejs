@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>NoteMe!</title>
+  <style>
+    body { font-family: Arial; margin: 0; padding: 20px; background: #161616; height: 100vh;}
+    textarea { 
+      width: 90%; 
+      height: 80vh; 
+      padding: 10px; 
+      font-size: 16px; 
+      outline: none;
+      border: none;
+      background: #1d1d1d;
+      color: white;
+      resize: none;
+      box-sizing: border-box;
+    }
+    h1{
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.774);
+      
+    }
+
+    @media (max-width: 800px){
+      textarea{
+        font-size: 28px;
+      }
+      h1{
+        font-size: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>/<%= note.path %></h1>
+  <textarea id="noteArea" ><%= note.content %></textarea>
+
+  <script>
+    const textarea = document.getElementById("noteArea");
+
+    async function salvarConteudo(text) {
+      await fetch(window.location.pathname, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ content: text })
+      });
+    }
+
+    let timeout;
+    textarea.addEventListener("input", () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        salvarConteudo(textarea.value);
+        console.log("Conteúdo salvo");
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
