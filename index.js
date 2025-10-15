@@ -6,7 +6,7 @@ import Note from "./nota.js";
 dotenv.config();
 
 const app = express();
-const PORT = 3000
+
 
 app.use(express.json())
 app.set("view engine", "ejs");
@@ -47,4 +47,4 @@ app.post("/:path", async (req, res) => {
   res.redirect(`/${path}`)
 })
 
-app.listen(PORT, () => { console.log(`rodando em localhost:${PORT}`)})
+app.listen(process.env.PORT, () => { console.log(`rodando em localhost:${process.env.PORT}`)})
