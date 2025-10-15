@@ -23,6 +23,16 @@
       color: rgba(255, 255, 255, 0.774);
       
     }
+    .save-warn{
+      position: absolute;
+      display: none;
+      top: 40px;
+      right: 15px;
+      color: white;
+      background-color: rgb(34, 83, 67);
+      padding: 6px 14px;
+      border-radius: 10px;
+    }
 
     @media (max-width: 800px){
       textarea{
@@ -37,6 +47,7 @@
 <body>
   <h1>/<%= note.path %></h1>
   <textarea id="noteArea" ><%= note.content %></textarea>
+  <div class="save-warn">Salvando...</div>
 
   <script>
     const textarea = document.getElementById("noteArea");
@@ -48,14 +59,17 @@
         body: new URLSearchParams({ content: text })
       });
     }
-
+    const save = document.querySelector(".save-warn")
     let timeout;
     textarea.addEventListener("input", () => {
       clearTimeout(timeout);
+      
+      save.style.display = "block"
       timeout = setTimeout(() => {
         salvarConteudo(textarea.value);
-        console.log("Conteúdo salvo");
+        save.style.display = "none"
       }, 2000);
+
     });
   </script>
 </body>
