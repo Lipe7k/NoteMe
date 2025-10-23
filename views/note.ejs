@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Now Note!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     body { font-family: Arial; margin: 0; padding: 20px; background: #161616; height: 100vh;}
     textarea { 
@@ -21,7 +22,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       font-size: 20px;
       color: rgba(255, 255, 255, 0.774);
-      
     }
     .save-warn{
       position: absolute;
@@ -33,44 +33,308 @@
       padding: 6px 14px;
       border-radius: 10px;
     }
+    .imagem{
+      width: 100%;
+    }
+    #btnImages{
+      border: none;
+      background: #414141;
+      color: white;
+      padding: 12px;
+      margin-bottom: 8px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .imagesBox{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      background-color: #414141;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 4px;
+      padding: 10px 0 0 0 ;
+    }
+    .bottom-bar{
+      margin-top: 12px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.795);
+    }
+    .bottom-bar button{
+      width: 100%;
+      height: 2rem;
+      margin-top: 12px;
+      cursor: pointer;
+      background-color: #00ff55;
+      border: none;
+      color: white;
+      border-radius: 0 0 4px 4px;
+      font-size: 16px;
+    }
+    .images{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      width: 95%;
+      max-height: 60vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .images::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .images::-webkit-scrollbar-track {
+    background: #2c2c2c;
+    border-radius: 8px;
+  }
+
+  .images::-webkit-scrollbar-thumb {
+    background-color: #00ff55;
+    border-radius: 8px;
+    border: 2px solid #2c2c2c;
+  }
+
+  .images::-webkit-scrollbar-thumb:hover {
+    background-color: #00cc44;
+  }
+    .img-box{
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .buttonsImg{
+      position: absolute;
+      top: 10px;
+      right: 0;
+    }
+
+    .buttonsImg button, .buttonsImg a{
+      padding: 0;
+      margin: 0 2px;
+      border: none;
+      background: none;
+      color: rgb(255, 0, 0);
+      font-size: 20px;
+      transition: .5s;
+      cursor: pointer;
+      text-shadow: -2px 1px 2px rgba(0,0,0,0.57), -2px 1px 2px rgba(0,0,0,0.57);
+    }
+
+    .img-box button:hover{
+      transform: scale(1.2);
+    }
+    .imagem{
+      width: 100%;
+      height: 150px;
+      object-fit: cover; 
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    .imagem:hover{
+      transform: rotateZ(2deg);
+    }
+
+    .hidden{
+      display: none;
+    }
+
+    #modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+    }
+
+    #modalClose {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
     @media (max-width: 800px){
       textarea{
-        font-size: 50px;
+        height: 60vh;
+        font-size: 14px;
+      }
+      .imagesBox{
+        width: 95%;
+        max-width: 100%;
+        padding: 5px 0 0 0;
+      }
+      .images{
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        max-height: 50vh;
+      }
+      .bottom-bar button{
+        font-size: 14px;
+        height: 2.2rem;
       }
       h1{
-        font-size: 85pt;
+        font-size: 18px;
       }
     }
   </style>
 </head>
 <body>
   <h1>/<%= note.path %></h1>
-  <textarea id="noteArea" ><%= note.content %></textarea>
+
+  <button id="btnImages"><i class="bi bi-images"></i></button>
+
+  <div class="imagesBox hidden">
+    <div class="images">
+      <% if (note.images && note.images.length > 0) { %>
+        <% note.images.forEach(image => { %>
+          <% if (image.path) { %>
+            <div class="img-box">
+              <img 
+                src="/<%= image.path %>" 
+                alt="imagem" 
+                class="imagem" 
+                data-note="<%= note._id %>" 
+                data-path="<%= image.path %>">
+              <div class="buttonsImg">
+                <a style="color: white;" href="/<%= image.path %>" download="<%= image.name %>"><i class="bi bi-upload"></i></a>
+                <button><i class="bi bi-trash"></i></button>
+              </div>
+            </div>
+          <% } %>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <div class="bottom-bar">
+      <span id="fileName">Nenhum arquivo selecionado</span>
+      <button id="uploadBtn">Add <i class="bi bi-plus"></i></button>
+    </div>
+  </div>
+
+  <form id="noteForm" action="/<%= note.path %>" method="POST" enctype="multipart/form-data">
+    <textarea name="content" id="noteArea"><%= note.content %></textarea>
+    <input id="imagesInput" type="file" name="images" style="display: none;" multiple>
+  </form>
+
   <div class="save-warn">Salvando...</div>
 
+  <div id="modal">
+    <span id="modalClose">&times;</span>
+    <img id="modalImg" src="" alt="Imagem grande">
+  </div>
+
   <script>
-    const textarea = document.getElementById("noteArea");
+    const images = document.querySelector(".imagesBox")
+    const btnImages = document.querySelector("#btnImages")
 
-    async function salvarConteudo(text) {
-      await fetch(window.location.pathname, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ content: text })
-      });
-    }
+    btnImages.addEventListener("click", () => { images.classList.toggle("hidden") })
+
+    const fileInput = document.querySelector("#imagesInput")
+    const uploadBtn = document.querySelector("#uploadBtn")
+    const fileName = document.querySelector("#fileName")
+
+    uploadBtn.addEventListener("click", () => { fileInput.click() })
+    fileInput.addEventListener("change", () => {
+      fileName.textContent = fileInput.files[0] ? fileInput.files[0].name : "Nenhum arquivo selecionado"
+    })
+
+    const form = document.getElementById("noteForm")
+    const textarea = document.getElementById("noteArea")
+
+    async function submitForm(){ await fetch("/<%= note.path %>", { method:"POST", body: new FormData(form) }) }
+
     const save = document.querySelector(".save-warn")
-    let timeout;
-    textarea.addEventListener("input", () => {
-      clearTimeout(timeout);
-      
-      save.style.display = "block"
-      timeout = setTimeout(() => {
-        salvarConteudo(textarea.value);
-        save.style.display = "none"
-      }, 2000);
 
+    let timeout;
+
+    textarea.addEventListener("input", () => {
+      clearTimeout(timeout)
+      save.style.display = "block"
+      timeout = setTimeout(() => { 
+      submitForm()
+      save.style.display = "none"
+     }, 2000)
+    })
+
+    fileInput.addEventListener("change", async () => {
+      save.style.display="block";
+
+      await submitForm();
+
+      save.style.display="none"
+      window.location.reload()
+    })
+
+    const modal = document.getElementById("modal")
+    const modalImg = document.getElementById("modalImg")
+    const modalClose = document.getElementById("modalClose")
+
+    document.querySelectorAll(".imagem").forEach(img => {
+      img.addEventListener("click", () => {
+        modalImg.src = img.src
+        modal.style.display = "flex"
+      })
+    })
+
+    modalClose.addEventListener("click", () => modal.style.display = "none")
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal) modal.style.display = "none"
+    })
+
+
+    document.querySelectorAll(".img-box button").forEach(btn => {
+      btn.addEventListener("click", async e => {
+        const imgBox = e.target.closest(".img-box");
+        const img = imgBox.querySelector("img");
+        const noteId = img.dataset.note;
+        const imagePath = img.dataset.path;
+
+        if (!noteId || !imagePath) return;
+
+        try {
+          const res = await fetch("/delete-image", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ noteId, imagePath })
+          });
+
+          const data = await res.json();
+          if (data.success) imgBox.remove();
+          else console.log(data.error);
+        } catch (err) {
+          console.error("Erro no fetch:", err);
+        }
+      });
     });
+
+
+
+
   </script>
 </body>
 </html>
