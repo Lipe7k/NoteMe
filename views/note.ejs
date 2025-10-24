@@ -215,15 +215,18 @@
           <% if (image.path) { %>
             <div class="img-box">
               <img 
-                src="/<%= image.path %>" 
+                src="<%= image.path %>" 
                 alt="imagem" 
                 class="imagem" 
                 data-note="<%= note._id %>" 
                 data-path="<%= image.path %>">
               <div class="buttonsImg">
-                <a style="color: white;" href="/<%= image.path %>" download="<%= image.name %>"><i class="bi bi-upload"></i></a>
+                <a style="color: white;" href="<%= image.path %>" download="<%= image.name %>">
+                  <i class="bi bi-upload"></i>
+                </a>
                 <button><i class="bi bi-trash"></i></button>
               </div>
+
             </div>
           <% } %>
         <% }) %>

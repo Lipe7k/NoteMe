@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import multer from "multer";
-import path from "path";
 import Note from "./nota.js";
 import deleteRouter from './delete.js';
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "./config/cloudinary.js";
 
 
 
@@ -27,15 +28,16 @@ const connectDB = async () => {
 }
 connectDB()
 
-const storage = multer.diskStorage({
-  destination: 'uploads/',
 
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "nownote",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
   }
-})
+});
 
-const upload = multer({ storage })
+const upload = multer({ storage });
 
 app.get("/", (req, res) => {
   res.render("home")
@@ -48,7 +50,7 @@ app.get("/:path", async (req, res) => {
   let note = await Note.findOne({ path })
 
   if(!note){
-    note = new Note({ path, content: "", images: {}})
+    note = new Note({ path, content: "", images: []})
     await note.save()
   }
 
@@ -56,24 +58,28 @@ app.get("/:path", async (req, res) => {
 })
 
 app.post("/:path", upload.array("images", 5), async (req, res) => {
-  const newImages = req.files.map(file => ({
-    name: file.originalname,
-    path: file.path
-  }))
+  const { path } = req.params;
+  const { content } = req.body;
 
-  const { path } = req.params
-  const { content } = req.body
+const newImages = req.files.map(file => ({
+  name: file.originalname,
+  path: file.path || file.secure_url
+}));
 
-  const note = await Note.findOne({ path });
 
-  await Note.findOneAndUpdate({ path }, { content, images: newImages })
+  let note = await Note.findOne({ path });
 
-  note.images = [...(note.images || []), ...newImages]
-  
-  await note.save()
+  if (!note) {
+    note = new Note({ path, content, images: newImages });
+  } else {
+    note.content = content;
+    note.images = [...(note.images || []), ...newImages];
+  }
 
-  res.redirect(`/${path}`)
-})
+  await note.save();
+  res.redirect(`/${path}`);
+});
+
 
 
 app.listen(process.env.PORT, () => { console.log(`rodando em localhost:${process.env.PORT}`)})
