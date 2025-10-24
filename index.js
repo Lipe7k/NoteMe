@@ -29,6 +29,10 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
+app.get("/", (req, res) => {
+  res.render("home")
+});
+
 
 app.get("/:path", async (req, res) => {
   const { path } = req.params;
