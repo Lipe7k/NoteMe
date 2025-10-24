@@ -221,10 +221,14 @@
                 data-note="<%= note._id %>" 
                 data-path="<%= image.path %>">
               <div class="buttonsImg">
-                <a style="color: white;" href="<%= image.path %>" download="<%= image.name %>">
+                <a style="color: white;" href="<%= image.path %>" download="<%= image.name %>" target="_blank">
                   <i class="bi bi-upload"></i>
                 </a>
-                <button><i class="bi bi-trash"></i></button>
+                <button class="deleteBtn" 
+                  data-note="<%= note._id %>" 
+                  data-path="<%= image.path %>">
+                  <i class="bi bi-trash"></i>
+                </button>
               </div>
 
             </div>
@@ -310,30 +314,33 @@
     })
 
 
-    document.querySelectorAll(".img-box button").forEach(btn => {
-      btn.addEventListener("click", async e => {
-        const imgBox = e.target.closest(".img-box");
-        const img = imgBox.querySelector("img");
-        const noteId = img.dataset.note;
-        const imagePath = img.dataset.path;
+    document.querySelectorAll(".deleteBtn").forEach(btn => {
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-        if (!noteId || !imagePath) return;
+    const noteId = btn.dataset.note;
+    const imagePath = btn.dataset.path;
 
-        try {
-          const res = await fetch("/delete-image", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ noteId, imagePath })
-          });
+    if (!noteId || !imagePath) return;
 
-          const data = await res.json();
-          if (data.success) imgBox.remove();
-          else console.log(data.error);
-        } catch (err) {
-          console.error("Erro no fetch:", err);
-        }
+    try {
+      const res = await fetch("/delete-image", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ noteId, imagePath })
       });
-    });
+
+      const data = await res.json();
+      if (data.success) {
+        btn.closest(".img-box").remove();
+      } else {
+        console.error(data.error);
+      }
+    } catch (err) {
+      console.error("Erro no fetch:", err);
+    }
+  });
+});
 
 
 
