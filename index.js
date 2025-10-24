@@ -3,69 +3,52 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import multer from "multer";
 import Note from "./nota.js";
-import deleteRouter from './delete.js';
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "./config/cloudinary.js";
-
-
 
 dotenv.config();
 
 const app = express();
-
-
-app.use(express.json())
-app.set("view engine", "ejs");
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static("uploads"))
-app.use('/delete-image', deleteRouter);
+app.set("view engine", "ejs");
 
 
-const connectDB = async () => {
-  await mongoose.connect(process.env.MONGO_URI)
-          .then(() => console.log("Conectado ao MongoDB"))
-          .catch((err) => console.log("Erro ao conectar com o MongoDB", err))
-}
-connectDB()
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB conectado"))
+  .catch(err => console.log(err));
 
 
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "nownote",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+    allowed_formats: ["jpg", "jpeg", "png", "webp"]
   }
 });
 
 const upload = multer({ storage });
 
-app.get("/", (req, res) => {
-  res.render("home")
-});
-
 
 app.get("/:path", async (req, res) => {
-  const { path } = req.params
-
-  let note = await Note.findOne({ path })
-
-  if(!note){
-    note = new Note({ path, content: "", images: []})
-    await note.save()
+  const { path } = req.params;
+  let note = await Note.findOne({ path });
+  if (!note) {
+    note = new Note({ path, content: "", images: [] });
+    await note.save();
   }
+  res.render("note", { note });
+});
 
-  res.render("note", { note })
-})
 
 app.post("/:path", upload.array("images", 5), async (req, res) => {
   const { path } = req.params;
   const { content } = req.body;
 
-const newImages = req.files.map(file => ({
-  name: file.originalname,
-  path: file.path || file.secure_url
-}));
-
+  const newImages = req.files.map(file => ({
+    name: file.originalname,
+    path: file.path || file.secure_url 
+  }));
 
   let note = await Note.findOne({ path });
 
@@ -80,6 +63,4 @@ const newImages = req.files.map(file => ({
   res.redirect(`/${path}`);
 });
 
-
-
-app.listen(process.env.PORT, () => { console.log(`rodando em localhost:${process.env.PORT}`)})
+app.listen(process.env.PORT, () => console.log(`Servidor rodando na porta ${process.env.PORT}`));
