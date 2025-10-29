@@ -245,7 +245,7 @@
   </div>
 
   <form id="noteForm" action="/<%= note.path %>" method="POST" enctype="multipart/form-data">
-    <textarea name="content" id="noteArea"><%= note.content %></textarea>
+    <textarea name="content" id="noteArea" spellcheck="false"><%= note.content %></textarea>
     <input id="imagesInput" type="file" name="images" style="display: none;" multiple>
   </form>
 
