@@ -24,6 +24,13 @@
       font-size: 20px;
       color: rgba(255, 255, 255, 0.774);
     }
+
+    #inputPath{
+      border: none;
+      outline: none;
+      font-size: 20px;
+    }
+
     .save-warn{
       position: absolute;
       display: none;
@@ -205,7 +212,7 @@
   </style>
 </head>
 <body>
-  <h1>/<%= note.path %></h1>
+  <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
 
   <button id="btnImages"><i class="bi bi-images"></i></button>
 
@@ -257,6 +264,14 @@
   </div>
 
   <script>
+
+    const inputPath = document.querySelector("#inputPath")
+
+    inputPath.addEventListener("keydown", (e) =>{
+      if (e.key === "Enter"){
+        window.location.href = "/" + inputPath.value
+      }
+    })
 
     const images = document.querySelector(".imagesBox")
     const btnImages = document.querySelector("#btnImages")
