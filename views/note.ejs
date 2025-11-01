@@ -6,169 +6,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="shortcut icon" href="/f_silver.png" type="image/x-icon">
   <style>
-<<<<<<< HEAD
       html, body {
-=======
-    body { font-family: Arial; margin: 0; padding: 20px; background: #161616; height: 100vh;}
-    textarea { 
-      width: 100%; 
-      height: 80vh; 
-      padding: 10px; 
-      font-size: 16px; 
-      outline: none;
-      border: none;
-      background: #1d1d1d;
-      color: white;
-      resize: none;
-      box-sizing: border-box;
-    }
-    h1{
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.774);
-    }
-
-    #inputPath{
-      color: rgba(255, 255, 255, 0.774);
-      border: none;
-      outline: none;
-      font-size: 20px;
-      background: none;
-    }
-
-    .save-warn{
-      position: absolute;
-      display: none;
-      top: 40px;
-      right: 15px;
-      color: white;
-      background-color: rgb(34, 83, 67);
-      padding: 6px 14px;
-      border-radius: 10px;
-    }
-    .imagem{
-      width: 100%;
-    }
-    #btnImages{
-      border: none;
-      background: #414141;
-      color: white;
-      padding: 12px;
-      margin-bottom: 8px;
-      font-size: 18px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .imagesBox{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      background-color: #414141;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 4px;
-      padding: 10px 0 0 0 ;
-    }
-    .bottom-bar{
-      margin-top: 12px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: rgba(255, 255, 255, 0.795);
-    }
-    .bottom-bar button{
-      width: 100%;
-      height: 2rem;
-      margin-top: 12px;
-      cursor: pointer;
-      background-color: #00ff55;
-      border: none;
-      color: white;
-      border-radius: 0 0 4px 4px;
-      font-size: 16px;
-    }
-    .images{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      width: 95%;
-      max-height: 60vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .images::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  .images::-webkit-scrollbar-track {
-    background: #2c2c2c;
-    border-radius: 8px;
-  }
-
-  .images::-webkit-scrollbar-thumb {
-    background-color: #00ff55;
-    border-radius: 8px;
-    border: 2px solid #2c2c2c;
-  }
-
-  .images::-webkit-scrollbar-thumb:hover {
-    background-color: #00cc44;
-  }
-    .img-box{
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    .buttonsImg{
-      position: absolute;
-      top: 10px;
-      right: 0;
-    }
-
-    .buttonsImg button, .buttonsImg a{
-      padding: 0;
-      margin: 0 2px;
-      border: none;
-      background: none;
-      color: rgb(255, 0, 0);
-      font-size: 20px;
-      transition: .5s;
-      cursor: pointer;
-      text-shadow: -2px 1px 2px rgba(0,0,0,0.57), -2px 1px 2px rgba(0,0,0,0.57);
-    }
-
-    .img-box button:hover{
-      transform: scale(1.2);
-    }
-    .imagem{
-      width: 100%;
-      height: 150px;
-      object-fit: cover; 
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-      margin: 8px 0;
-      cursor: pointer;
-    }
-
-    .imagem:hover{
-      transform: rotateZ(2deg);
-    }
-
-    .hidden{
-      display: none;
-    }
-
-    #modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
->>>>>>> 502b154ca3b1a9f1c7571afa4f560cca30e6c263
       height: 100%;
     }
 
@@ -435,11 +273,7 @@ h1{
 
 </head>
 <body>
-<<<<<<< HEAD
    <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
-=======
-  <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
->>>>>>> 502b154ca3b1a9f1c7571afa4f560cca30e6c263
 
   <button id="btnImages"><i class="bi bi-images"></i></button>
 
@@ -492,24 +326,11 @@ h1{
   <script>
         const inputPath = document.querySelector("#inputPath")
 
-<<<<<<< HEAD
         inputPath.addEventListener("keydown", (e) =>{
           if (e.key === "Enter"){
             window.location.href = "/" + inputPath.value
           }
         })
-=======
-    const inputPath = document.querySelector("#inputPath")
-
-    inputPath.addEventListener("keydown", (e) =>{
-      if (e.key === "Enter"){
-        window.location.href = "/" + inputPath.value
-      }
-    })
-
-    const images = document.querySelector(".imagesBox")
-    const btnImages = document.querySelector("#btnImages")
->>>>>>> 502b154ca3b1a9f1c7571afa4f560cca30e6c263
 
         const images = document.querySelector(".imagesBox")
         const btnImages = document.querySelector("#btnImages")
