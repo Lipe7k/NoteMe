@@ -6,206 +6,274 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="shortcut icon" href="/f_silver.png" type="image/x-icon">
   <style>
-    body { font-family: Arial; margin: 0; padding: 20px; background: #161616; height: 100vh;}
-    textarea { 
-      width: 100%; 
-      height: 80vh; 
-      padding: 10px; 
-      font-size: 16px; 
-      outline: none;
-      border: none;
-      background: #1d1d1d;
-      color: white;
-      resize: none;
-      box-sizing: border-box;
-    }
-    h1{
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.774);
-    }
-    .save-warn{
-      position: absolute;
-      display: none;
-      top: 40px;
-      right: 15px;
-      color: white;
-      background-color: rgb(34, 83, 67);
-      padding: 6px 14px;
-      border-radius: 10px;
-    }
-    .imagem{
-      width: 100%;
-    }
-    #btnImages{
-      border: none;
-      background: #414141;
-      color: white;
-      padding: 12px;
-      margin-bottom: 8px;
-      font-size: 18px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .imagesBox{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      background-color: #414141;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 4px;
-      padding: 10px 0 0 0 ;
-    }
-    .bottom-bar{
-      margin-top: 12px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: rgba(255, 255, 255, 0.795);
-    }
-    .bottom-bar button{
-      width: 100%;
-      height: 2rem;
-      margin-top: 12px;
-      cursor: pointer;
-      background-color: #00ff55;
-      border: none;
-      color: white;
-      border-radius: 0 0 4px 4px;
-      font-size: 16px;
-    }
-    .images{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      width: 95%;
-      max-height: 60vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .images::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  .images::-webkit-scrollbar-track {
-    background: #2c2c2c;
-    border-radius: 8px;
-  }
-
-  .images::-webkit-scrollbar-thumb {
-    background-color: #00ff55;
-    border-radius: 8px;
-    border: 2px solid #2c2c2c;
-  }
-
-  .images::-webkit-scrollbar-thumb:hover {
-    background-color: #00cc44;
-  }
-    .img-box{
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    .buttonsImg{
-      position: absolute;
-      top: 10px;
-      right: 0;
-    }
-
-    .buttonsImg button, .buttonsImg a{
-      padding: 0;
-      margin: 0 2px;
-      border: none;
-      background: none;
-      color: rgb(255, 0, 0);
-      font-size: 20px;
-      transition: .5s;
-      cursor: pointer;
-      text-shadow: -2px 1px 2px rgba(0,0,0,0.57), -2px 1px 2px rgba(0,0,0,0.57);
-    }
-
-    .img-box button:hover{
-      transform: scale(1.2);
-    }
-    .imagem{
-      width: 100%;
-      height: 150px;
-      object-fit: cover; 
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-      margin: 8px 0;
-      cursor: pointer;
-    }
-
-    .imagem:hover{
-      transform: rotateZ(2deg);
-    }
-
-    .hidden{
-      display: none;
-    }
-
-    #modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      html, body {
       height: 100%;
-      background-color: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
     }
 
-    #modal img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 8px;
-    }
+  body { 
+    font-family: Arial; 
+    margin: 0; 
+    padding: 20px; 
+    background: #0a0a0a;
+    height: 100vh;
+  }
 
-    #modalClose {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+#noteArea { 
+  border-radius: 14px;
+  width: 100%; 
+  height: calc(80vh - 40px);
+  padding: 10px; 
+  font-size: 16px; 
+  outline: none;
+  border: none;
+  background: #1e1e1e; 
+  color: #e0e0e0; 
+  resize: none;
+  box-sizing: border-box;
+}
 
-    @media (max-width: 800px){
-      textarea{
-        height: 60vh;
-        font-size: 14px;
-      }
-      .imagesBox{
-        width: 95%;
-        max-width: 100%;
-        padding: 5px 0 0 0;
-      }
-      .images{
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        max-height: 50vh;
-      }
-      .bottom-bar button{
-        font-size: 14px;
-        height: 2.2rem;
-      }
-      h1{
-        font-size: 18px;
-      }
-    }
-  </style>
+h1{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  color: #c0c0c0; /* cinza claro */
+}
+
+#inputPath{
+  color: #c0c0c0;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  background: none;
+}
+
+.save-warn {
+  position: absolute;
+  display: none;
+  top: 40px;
+  right: 15px;
+  color: #fff;
+  background-color: #333333; /* cinza escuro */
+  padding: 6px 14px;
+  border-radius: 10px;
+}
+
+#btnImages {
+  border: none;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  padding: 12px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btnImages:hover {
+  background: #333333;
+}
+
+.imagesBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  background-color: #1e1e1e;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+  padding: 10px 0 0 0;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.bottom-bar {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #c0c0c0;
+}
+
+.bottom-bar button {
+  width: 100%;
+  height: 2rem;
+  margin-top: 12px;
+  cursor: pointer;
+  background-color: #555555; /* cinza médio */
+  border: none;
+  color: #fff;
+  border-radius: 0 0 8px 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.bottom-bar button:hover {
+  background-color: #777777;
+}
+
+.images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  width: 95%;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.images::-webkit-scrollbar {
+  width: 10px;
+}
+
+.images::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 8px;
+}
+
+.images::-webkit-scrollbar-thumb {
+  background-color: #555555;
+  border-radius: 8px;
+  border: 2px solid #1e1e1e;
+}
+
+.images::-webkit-scrollbar-thumb:hover {
+  background-color: #777777;
+}
+
+.img-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonsImg {
+  position: absolute;
+  top: 10px;
+  right: 0;
+}
+
+.buttonsImg button, .buttonsImg a {
+  padding: 0;
+  margin: 0 2px;
+  border: none;
+  background: none;
+  color: #ff5c5c;
+  font-size: 20px;
+  transition: 0.3s;
+  cursor: pointer;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+}
+
+.buttonsImg button:hover {
+  transform: scale(1.2);
+}
+
+.imagem {
+  width: 100%;
+  height: 150px;
+  object-fit: cover; 
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.imagem:hover {
+  transform: rotateZ(2deg);
+}
+
+.hidden {
+  display: none;
+}
+
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+
+#modalClose {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.full-screen{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh !important;
+  z-index: 9999;
+  font-size: 1.2em;
+  border-radius: 0 !important;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  #btnImages{
+    font-size: 40px;
+    padding: 24px;
+  }
+
+  .imagesBox{
+    height: 250px;
+    max-width: 600px;
+  }
+
+  .bottom-bar{
+    position: absolute;
+    bottom: 0;
+    font-size: 30px;
+  }
+
+  .bottom-bar button{
+    background-color: rgba(94, 255, 88, 0.267);
+    font-size: 25px;
+    height: 4rem;
+  }
+
+  #inputPath, h1{
+    font-size: 45px;
+  }
+
+  #noteArea {
+    height: 1100px;
+    font-size: 28px;
+  }
+}
+
+
+</style>
+
 </head>
 <body>
-  <h1>/<%= note.path %></h1>
+   <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
 
   <button id="btnImages"><i class="bi bi-images"></i></button>
 
@@ -255,96 +323,112 @@
     <span id="modalClose">&times;</span>
     <img id="modalImg" src="" alt="Imagem grande">
   </div>
-
   <script>
+        const inputPath = document.querySelector("#inputPath")
 
-    const images = document.querySelector(".imagesBox")
-    const btnImages = document.querySelector("#btnImages")
+        inputPath.addEventListener("keydown", (e) =>{
+          if (e.key === "Enter"){
+            window.location.href = "/" + inputPath.value
+          }
+        })
 
-    btnImages.addEventListener("click", () => { images.classList.toggle("hidden") })
+        const images = document.querySelector(".imagesBox")
+        const btnImages = document.querySelector("#btnImages")
 
-    const fileInput = document.querySelector("#imagesInput")
-    const uploadBtn = document.querySelector("#uploadBtn")
-    const fileName = document.querySelector("#fileName")
+        btnImages.addEventListener("click", () => { images.classList.toggle("hidden") })
 
-    uploadBtn.addEventListener("click", () => { fileInput.click() })
-    fileInput.addEventListener("change", () => {
-      fileName.textContent = fileInput.files[0] ? fileInput.files[0].name : "Nenhum arquivo selecionado"
-    })
+        const fileInput = document.querySelector("#imagesInput")
+        const uploadBtn = document.querySelector("#uploadBtn")
+        const fileName = document.querySelector("#fileName")
 
-    const form = document.getElementById("noteForm")
-    const textarea = document.getElementById("noteArea")
+        uploadBtn.addEventListener("click", () => { fileInput.click() })
+        fileInput.addEventListener("change", () => {
+          fileName.textContent = fileInput.files[0] ? fileInput.files[0].name : "Nenhum arquivo selecionado"
+        })
 
-    async function submitForm(){ await fetch("/<%= note.path %>", { method:"POST", body: new FormData(form) }) }
+        const form = document.getElementById("noteForm")
+        const textarea = document.getElementById("noteArea")
 
-    const save = document.querySelector(".save-warn")
+        document.addEventListener('keydown', (e) => {
 
-    let timeout;
-
-    textarea.addEventListener("input", () => {
-      clearTimeout(timeout)
-      save.style.display = "block"
-      timeout = setTimeout(() => { 
-      submitForm()
-      save.style.display = "none"
-     }, 2000)
-    })
-
-    fileInput.addEventListener("change", async () => {
-      save.style.display="block";
-
-      await submitForm();
-
-      save.style.display="none"
-      window.location.reload()
-    })
-
-    const modal = document.getElementById("modal")
-    const modalImg = document.getElementById("modalImg")
-    const modalClose = document.getElementById("modalClose")
-
-    document.querySelectorAll(".imagem").forEach(img => {
-      img.addEventListener("click", () => {
-        modalImg.src = img.src
-        modal.style.display = "flex"
-      })
-    })
-
-    modalClose.addEventListener("click", () => modal.style.display = "none")
-    modal.addEventListener("click", (e) => {
-      if(e.target === modal) modal.style.display = "none"
-    })
+          if (e.key.toLowerCase() === 'f' && document.activeElement !== textarea && document.activeElement !== inputPath) {
+            textarea.classList.toggle('full-screen');
+          }
 
 
-    document.querySelectorAll(".deleteBtn").forEach(btn => {
-  btn.addEventListener("click", async (e) => {
-    e.preventDefault();
+          if (e.key === 'Escape' && textarea.classList.contains('full-screen')) {
+            textarea.classList.remove('full-screen');
+          }
+        });
 
-    const noteId = btn.dataset.note;
-    const imagePath = btn.dataset.path;
+        async function submitForm(){ await fetch("/<%= note.path %>", { method:"POST", body: new FormData(form) }) }
 
-    if (!noteId || !imagePath) return;
+        const save = document.querySelector(".save-warn")
 
-    try {
-      const res = await fetch("/delete-image", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ noteId, imagePath })
+        let timeout;
+
+        textarea.addEventListener("input", () => {
+          clearTimeout(timeout)
+          save.style.display = "block"
+          timeout = setTimeout(() => { 
+          submitForm()
+          save.style.display = "none"
+        }, 2000)
+        })
+
+        fileInput.addEventListener("change", async () => {
+          save.style.display="block";
+
+          await submitForm();
+
+          save.style.display="none"
+          window.location.reload()
+        })
+
+        const modal = document.getElementById("modal")
+        const modalImg = document.getElementById("modalImg")
+        const modalClose = document.getElementById("modalClose")
+
+        document.querySelectorAll(".imagem").forEach(img => {
+          img.addEventListener("click", () => {
+            modalImg.src = img.src
+            modal.style.display = "flex"
+          })
+        })
+
+        modalClose.addEventListener("click", () => modal.style.display = "none")
+        modal.addEventListener("click", (e) => {
+          if(e.target === modal) modal.style.display = "none"
+        })
+
+
+      document.querySelectorAll(".deleteBtn").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const noteId = btn.dataset.note;
+        const imagePath = btn.dataset.path;
+
+        if (!noteId || !imagePath) return;
+
+        try {
+          const res = await fetch("/delete-image", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ noteId, imagePath })
+          });
+
+          const data = await res.json();
+          if (data.success) {
+            btn.closest(".img-box").remove();
+          } else {
+            console.error(data.error);
+          }
+        } catch (err) {
+          console.error("Erro no fetch:", err);
+        }
       });
-
-      const data = await res.json();
-      if (data.success) {
-        btn.closest(".img-box").remove();
-      } else {
-        console.error(data.error);
-      }
-    } catch (err) {
-      console.error("Erro no fetch:", err);
-    }
-  });
-});
-
-
+    });
 
 
   </script>
