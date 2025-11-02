@@ -19,10 +19,24 @@ app.set("view engine", "ejs");
 app.use("/delete-image", deleteRouter);
 
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB conectado"))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB conectado"))
+.catch(err => console.log("Erro ao conectar no MongoDB:", err));
 
+mongoose.connection.on('error', err => {
+  console.error('Erro na conexão com MongoDB:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('MongoDB desconectado. Tentando reconectar...');
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }).catch(err => console.error('Erro ao reconectar:', err));
+});
 
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -52,6 +66,7 @@ app.get("/:path", async (req, res) => {
     res.render("note", { note });
   } catch (error) {
     console.log('Erro 500:', error)
+    res.status(500).send('Erro no servidor');
   }
 });
 
