@@ -40,13 +40,19 @@ app.get("/", (req, res) => {
 
 
 app.get("/:path", async (req, res) => {
-  const { path } = req.params;
-  let note = await Note.findOne({ path });
-  if (!note) {
-    note = new Note({ path, content: "", images: [] });
-    await note.save();
+  try {
+    const { path } = req.params;
+    
+    let note = await Note.findOne({ path });
+    if (!note) {
+      note = new Note({ path, content: "", images: [] });
+      await note.save();
+    }
+
+    res.render("note", { note });
+  } catch (error) {
+    console.log('Erro 500:', error)
   }
-  res.render("note", { note });
 });
 
 
