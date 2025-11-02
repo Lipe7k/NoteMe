@@ -18,6 +18,15 @@
     height: 100vh;
   }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 9999s ease-in-out 0s !important;
+  -webkit-text-fill-color: #c0c0c0 !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+}
+
 #noteArea { 
   border-radius: 14px;
   width: 100%; 
@@ -32,10 +41,38 @@
   box-sizing: border-box;
 }
 
+header{ 
+  border: 2px solid #1e1e1e;
+  padding: 0 20px;
+  border-radius: 12px;
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.search-bar{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  background-color: #181818;
+  padding: 0 0 0 10px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.search-bar button{
+  font-size: 20px;
+  background: none;
+  padding: 8px;
+}
+
 h1{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 20px;
-  color: #c0c0c0; /* cinza claro */
+  color: #c0c0c0; 
+  
 }
 
 #inputPath{
@@ -48,37 +85,58 @@ h1{
 }
 
 .save-warn {
-  position: absolute;
+  position: fixed;
   display: none;
-  top: 40px;
+  top: 15px;
   right: 15px;
   color: #fff;
-  background-color: #333333; /* cinza escuro */
-  padding: 6px 14px;
+  background-color: #333333; 
+  padding: 10px 14px;
   border-radius: 10px;
 }
 
-#btnImages {
+header button{
   border: none;
-  background: #1e1e1e;
+  background: #131313;
   color: #e0e0e0;
-  padding: 12px;
-  margin-bottom: 8px;
-  font-size: 18px;
+  padding: 10px 15px;
+  font-size: 22px;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-#btnImages:hover {
+header button:hover {
   background: #333333;
 }
+
+.infoBox{
+  background-color: #292929;
+  border-radius: 12px;
+  position: absolute;
+  right: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  width: 300px;
+  height: 250px;
+  color: #c0c0c0;
+  padding: 15px;
+}
+
+.infoBox span{
+  margin-top: 20px;
+  align-self: center;
+}
+
+
 
 .imagesBox {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
+  right: 20px;
   background-color: #1e1e1e;
   width: 90%;
   max-width: 500px;
@@ -101,7 +159,7 @@ h1{
   height: 2rem;
   margin-top: 12px;
   cursor: pointer;
-  background-color: #555555; /* cinza médio */
+  background-color: #555555;
   border: none;
   color: #fff;
   border-radius: 0 0 8px 8px;
@@ -231,8 +289,8 @@ h1{
   border-radius: 0 !important;
 }
 
-@media (max-width: 600px) {
-  body {
+@media (max-width: 768px) {
+  /* body {
     padding: 10px;
   }
 
@@ -260,7 +318,7 @@ h1{
 
   #inputPath, h1{
     font-size: 45px;
-  }
+  } */
 
   #noteArea {
     height: 1100px;
@@ -273,9 +331,27 @@ h1{
 
 </head>
 <body>
-   <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
+  <header>
+    <div class="search-bar">
+      <h1>/<input type="text" id="inputPath" value="<%= note.path %>"></input></h1>
+      <button id="btnSearchNote"><i class="bi bi-search"></i></button>
+    </div>
+    <div class="buttonsHeader">
+      <button id="btnImages"><i class="bi bi-images"></i></button>
+      <button id="btnInfo"><i class="bi bi-info-circle"></i></button>
+    </div>
+  </header>
 
-  <button id="btnImages"><i class="bi bi-images"></i></button>
+  <div class="infoBox hidden">
+    <div class="">
+      <p>Use "F" para modo tela cheia e "ESC" para sair.</p>
+      <p>Acesse outra nota pela URL ou pela barra de busca.</p>
+    </div>
+
+    <span>Made by Felipe Falcirolli</span>
+  </div>
+
+
 
   <div class="imagesBox hidden">
     <div class="images">
@@ -325,12 +401,26 @@ h1{
   </div>
   <script>
         const inputPath = document.querySelector("#inputPath")
+        const btnSearchNote = document.querySelector('#btnSearchNote')
+
+        btnSearchNote.addEventListener('click', () => {
+          window.location.href = "/" + inputPath.value
+        })
 
         inputPath.addEventListener("keydown", (e) =>{
           if (e.key === "Enter"){
             window.location.href = "/" + inputPath.value
           }
         })
+
+        const btnInfo = document.querySelector('#btnInfo')
+        const infoBox = document.querySelector('.infoBox')
+
+        btnInfo.addEventListener("click", () => { infoBox.classList.toggle("hidden") })
+
+
+
+
 
         const images = document.querySelector(".imagesBox")
         const btnImages = document.querySelector("#btnImages")
